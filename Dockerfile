@@ -1,11 +1,14 @@
 FROM python:3.10
 
-WORKDIR /crud
+WORKDIR /app
 
-COPY . .
+COPY requirements.txt /app/
+RUN pip install --no-cache-dir -r requirements.txt
 
-RUN pip install -r requirements.txt
+COPY . /app/
+
+RUN python manage.py migrate
 
 EXPOSE 8000
 
-CMD python3 manage.py runserver
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
